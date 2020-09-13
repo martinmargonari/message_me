@@ -22,6 +22,16 @@ scroll_bottom = function() {
         $('#messages').scrollTop($('#messages')[0].scrollHeight)
     }
 }
+/*
+ Not necessary (AJAX Forms already interpret Enter as a submission event
+submit_message = function() {
+    $('#message_body').on('keydown', function(e) {
+        if (e.keyCode == 13) {
+            $('button').click();
+            e.target.value = "";
+        }
+    });
+}*/
 
 $(document).on('turbolinks:load', function(){
     $('.ui.dropdown').dropdown();
@@ -29,7 +39,11 @@ $(document).on('turbolinks:load', function(){
     $('.message .close').on('click', function() {
         $(this).closest('.message').transition('fade');
     });
-
     scroll_bottom();
+
+    /* Clear Input field after submit */
+    $('#new_message').on('ajax:send', function() {
+        $('#message_body').val("").focus();
+    });
 })
 
